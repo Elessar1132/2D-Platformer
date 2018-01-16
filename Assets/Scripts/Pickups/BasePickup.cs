@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D), typeof(SpriteRenderer), typeof(BoxCollider2D))]
 public class BasePickup : MonoBehaviour
 {
-    delegate void PickupItem();
+    delegate void PickupItem(GameObject Other);
     PickupItem pickupItem;
 	// Use this for initialization
 	void Awake ()
     {
+        GetComponent<BoxCollider2D>().isTrigger = true;
         pickupItem += OnPickup;
 	}
 
@@ -17,11 +19,11 @@ public class BasePickup : MonoBehaviour
         if(collision.tag.Equals("Player"))
         {
             // Player picked up this object
-            pickupItem();
+            pickupItem(collision.gameObject);
         }
     }
 
-    protected virtual void OnPickup()
+    protected virtual void OnPickup(GameObject Other)
     {
         Debug.Log("OnPickup");
     }
