@@ -34,7 +34,8 @@ public class Move : MonoBehaviour {
         
         if(Input.GetButton("Jump") && grounded)
         {
-            PlayerRB2D.velocity = new Vector2(player.transform.position.x, jumpSpeed);
+            PlayerRB2D.AddForce(new Vector2(0, jumpSpeed));
+            //PlayerRB2D.velocity = new Vector2(player.transform.position.x, jumpSpeed);
             grounded = false;
         }
     }
