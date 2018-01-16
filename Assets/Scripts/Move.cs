@@ -17,7 +17,7 @@ public class Move : MonoBehaviour {
     // Update is called once per frame
 
     public float speed = 10.0f;
-    public float jumpSpeed = 50.0f;
+    public float jumpSpeed = 5.0f;
     private Vector2 Movement = Vector2.zero;
     bool grounded = false;
     public Transform groundCheck;
@@ -30,7 +30,7 @@ public class Move : MonoBehaviour {
 
         Movement.x = Input.GetAxis("Horizontal");
 
-        PlayerRB2D.velocity = new Vector2(Movement.x * speed, 0);
+        PlayerRB2D.velocity = new Vector2(Movement.x * speed, PlayerRB2D.velocity.y);
         
         if(Input.GetButton("Jump") && grounded)
         {
