@@ -17,8 +17,15 @@ public class HUDHealth : MonoBehaviour
             if (PlayerObj)
             {
                 PlayerHealth = PlayerObj.GetComponent<Health>();
-                PlayerHealth.onHealthChange += UpdateHealthText;
-                HealthText.text = PlayerHealth.GetCurrentHealth().ToString();
+                if (PlayerHealth)
+                {
+                    PlayerHealth.onHealthChange += UpdateHealthText;
+                    HealthText.text = PlayerHealth.GetCurrentHealth().ToString();
+                }
+                else
+                {
+                    Debug.LogError("Player Health is not set and could not be found");
+                }
             }
         }
         else
