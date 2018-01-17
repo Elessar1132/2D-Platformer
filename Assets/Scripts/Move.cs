@@ -28,10 +28,8 @@ public class Move : MonoBehaviour {
     {
         if (Input.GetButton("Jump") && grounded)
         {
-            Debug.Log("Y vel before Jump" + PlayerRB2D.velocity.y);
             PlayerRB2D.AddForce(new Vector2(0, jumpSpeed));
-            Debug.Log("Y vel after Jump" + PlayerRB2D.velocity.y);
-            //PlayerRB2D.velocity = new Vector2(player.transform.position.x, jumpSpeed);
+            
             grounded = false;
         }
     }
