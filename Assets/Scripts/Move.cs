@@ -5,19 +5,18 @@ using UnityEngine;
 public class Move : MonoBehaviour {
 
     GameObject player;
-    CharacterController Controller;
     Rigidbody2D PlayerRB2D;
     // Use this for initialization
-    void Start () {
+    void Start ()
+    {
         player = GameObject.FindGameObjectWithTag("Player");
-        Controller = player.GetComponent<CharacterController>();
         PlayerRB2D = player.GetComponent<Rigidbody2D>();
 	}
 
     // Update is called once per frame
 
-    public float speed = 10.0f;
-    public float jumpSpeed = 50.0f;
+    float speed = 5.0f;
+    float jumpSpeed = 5.0f;
     private Vector2 Movement = Vector2.zero;
     bool grounded = false;
     public Transform groundCheck;
@@ -26,21 +25,51 @@ public class Move : MonoBehaviour {
 
     private void Update()
     {
-        if (Input.GetButton("Jump") && grounded)
+        if (grounded && Input.GetButton("Jump"))
         {
-            PlayerRB2D.AddForce(new Vector2(0, jumpSpeed));
-            
-            grounded = false;
+            Jump();
         }
     }
 
     void FixedUpdate()
     {
+        AxisMove(Input.GetAxis("Horizontal"));
+    }
+
+    void AxisMove(float axis)
+    {
         grounded = Physics2D.OverlapCircle(groundCheck.position, groundRadius, whatIsGround);
 
-        Movement.x = Input.GetAxis("Horizontal");
+        Movement.x = axis;
 
-        PlayerRB2D.velocity = new Vector2(Movement.x * speed, PlayerRB2D.velocity.y);
+        if (PlayerRB2D)
+        {
+            PlayerRB2D.velocity = new Vector2(Movement.x * speed, PlayerRB2D.velocity.y);
+        }
+    }
+
+    void Jump()
+    {
+        if (!PlayerRB2D)
+        {
+            PlayerRB2D = player.GetComponent<Rigidbody2D>();
+            if (PlayerRB2D)
+            {
+                PlayerRB2D.velocity = new Vector2(PlayerRB2D.velocity.x, jumpSpeed);
+
+                grounded = false;
+            }
+            else
+            {
+                Debug.LogError("Character does not have a rigidbody2D");
+            }
+        }
+        else
+        {
+            PlayerRB2D.velocity = new Vector2(PlayerRB2D.velocity.x, jumpSpeed);
+
+            grounded = false;
+        }
         
     }
 }
