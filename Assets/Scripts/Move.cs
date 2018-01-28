@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class Move : MonoBehaviour {
 
-    GameObject player;
-    Rigidbody2D PlayerRB2D;
+    GameObject gameObj;
+    Rigidbody2D RB2D;
     // Use this for initialization
     void Start ()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
-        PlayerRB2D = player.GetComponent<Rigidbody2D>();
+        
+        gameObj = gameObject;
+        RB2D = gameObj.GetComponent<Rigidbody2D>();
 	}
 
     // Update is called once per frame
@@ -42,20 +43,20 @@ public class Move : MonoBehaviour {
 
         Movement.x = axis;
 
-        if (PlayerRB2D)
+        if (RB2D)
         {
-            PlayerRB2D.velocity = new Vector2(Movement.x * speed, PlayerRB2D.velocity.y);
+            RB2D.velocity = new Vector2(Movement.x * speed, RB2D.velocity.y);
         }
     }
 
     void Jump()
     {
-        if (!PlayerRB2D)
+        if (!RB2D)
         {
-            PlayerRB2D = player.GetComponent<Rigidbody2D>();
-            if (PlayerRB2D)
+            RB2D = gameObj.GetComponent<Rigidbody2D>();
+            if (RB2D)
             {
-                PlayerRB2D.velocity = new Vector2(PlayerRB2D.velocity.x, jumpSpeed);
+                RB2D.velocity = new Vector2(RB2D.velocity.x, jumpSpeed);
 
                 grounded = false;
             }
@@ -66,7 +67,7 @@ public class Move : MonoBehaviour {
         }
         else
         {
-            PlayerRB2D.velocity = new Vector2(PlayerRB2D.velocity.x, jumpSpeed);
+            RB2D.velocity = new Vector2(RB2D.velocity.x, jumpSpeed);
 
             grounded = false;
         }
